@@ -4,11 +4,15 @@ import (
 	"context"
 
 	firebase "firebase.google.com/go"
+	"google.golang.org/api/option"
 )
 
-func VerifyAuthToken(idToken string) (string, error) {
+type FirebaseServices struct{}
+
+func (FirebaseServices) VerifyAuthToken(idToken string) (string, error) {
 	// Initialize the Firebase Admin SDK
-	app, err := firebase.NewApp(context.Background(), nil)
+	options := option.WithCredentialsFile("secrets/hope2347x-firebase-adminsdk.json")
+	app, err := firebase.NewApp(context.Background(), nil, options)
 	if err != nil {
 		return "", err
 	}
@@ -20,7 +24,7 @@ func VerifyAuthToken(idToken string) (string, error) {
 	}
 
 	// Verify the ID token
-	token, err := authClient.VerifyIDToken(context.Background(), idToken)
+	token, err := authClient.VerifyIDTokenAndCheckRevoked(context.Background(), idToken)
 	if err != nil {
 		return "", err
 	}
