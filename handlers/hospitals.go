@@ -19,7 +19,7 @@ func HandleHospitals(ctx *gin.Context) {
 	mapsServices := services.GoogleMapsServices{}
 
 	// Verifying the ID token
-	uid, err := firebaseServices.VerifyAuthToken(idToken);
+	uid, err := firebaseServices.VerifyAuthToken(idToken)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, models.ErrorResponse{Error: "Unauthorized request", Message: err.Error()})
 		return
