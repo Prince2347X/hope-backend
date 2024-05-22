@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 
-	firebase "firebase.google.com/go"
+	"firebase.google.com/go"
 	"google.golang.org/api/option"
 )
 

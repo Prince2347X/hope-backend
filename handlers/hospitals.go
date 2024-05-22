@@ -16,7 +16,6 @@ func HandleHospitals(ctx *gin.Context) {
 	idToken := helpers.ExtractBearerToken(ctx.GetHeader("Authorization"))
 
 	firebaseServices := services.FirebaseServices{}
-	mapsServices := services.GoogleMapsServices{}
 
 	// Verifying the ID token
 	uid, err := firebaseServices.VerifyAuthToken(idToken)
@@ -29,6 +28,13 @@ func HandleHospitals(ctx *gin.Context) {
 	fmt.Printf("User is authenticated. UID: %s", uid)
 
 	// MARK: TODO: - Fetching hospitals using the Maps API
-	hospitals := mapsServices.FetchHospitals(0.0, 0.0)
+
+	mapsServices := services.GoogleMapsServices{}
+
+	hospitals, err := mapsServices.FetchHospitals(0.0, 0.0)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, models.ErrorResponse{Error: "Internal server error", Message: err.Error()})
+		return
+	}
 	ctx.IndentedJSON(http.StatusOK, hospitals)
 }
