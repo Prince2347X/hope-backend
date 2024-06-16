@@ -12,6 +12,10 @@ import (
 
 func HandleHospitals(ctx *gin.Context) {
 
+	// ---------------------------------------------------
+	// ------ Handling Authentication with firebase ------
+	// ---------------------------------------------------
+
 	// Extracting the ID token from the Authorization header
 	idToken := helpers.ExtractBearerToken(ctx.GetHeader("Authorization"))
 
@@ -26,6 +30,10 @@ func HandleHospitals(ctx *gin.Context) {
 
 	// Token is valid
 	fmt.Printf("User is authenticated. UID: %s", uid)
+
+	// ---------------------------------------------------
+	// ----------- Fetching data from Maps API -----------
+	// ---------------------------------------------------
 
 	// MARK: TODO: - Fetching hospitals using the Maps API
 
